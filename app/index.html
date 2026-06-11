@@ -1,389 +1,1906 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProdCloud Enterprise</title>
-<style>
-:root{
-  --bg:#f4f7fb;
-  --surface:#ffffff;
-  --surface2:#f8fafc;
-  --text:#0f172a;
-  --muted:#64748b;
-  --border:#e2e8f0;
-  --primary:#2563eb;
-  --accent:#06b6d4;
-  --success:#16a34a;
-  --warning:#f59e0b;
-  --danger:#dc2626;
-  --dark:#020617;
-  --shadow:0 20px 50px rgba(15,23,42,.08);
-  --radius:22px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Inter,Segoe UI,system-ui,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-}
-a{text-decoration:none;color:inherit}
-.app{
-  display:grid;
-  grid-template-columns:280px 1fr;
-  min-height:100vh;
-}
-.sidebar{
-  background:linear-gradient(180deg,#020617,#0f172a);
-  color:white;
-  padding:28px 22px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-.logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:38px;
-}
-.logo-icon{
-  width:46px;height:46px;border-radius:16px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--primary),var(--accent));
-  font-weight:900;
-}
-.logo h1{font-size:22px}
-.logo p{font-size:13px;color:#94a3b8}
-.nav{display:grid;gap:10px}
-.nav a{
-  padding:13px 15px;
-  color:#cbd5e1;
-  border-radius:14px;
-  font-weight:700;
-}
-.nav a:hover,.nav a.active{
-  background:rgba(37,99,235,.25);
-  color:white;
-}
-.side-card{
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.1);
-  padding:18px;
-  border-radius:18px;
-  font-size:14px;
-  color:#dbeafe;
-  line-height:1.7;
-}
-.main{padding:30px}
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  align-items:center;
-  margin-bottom:26px;
-}
-.topbar h2{font-size:32px;letter-spacing:-.04em}
-.topbar p{color:var(--muted);margin-top:6px}
-.badge{
-  padding:8px 12px;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:900;
-  background:#dbeafe;
-  color:#1d4ed8;
-}
-.btn{
-  border:0;
-  padding:12px 16px;
-  border-radius:13px;
-  font-weight:800;
-  cursor:pointer;
-}
-.btn-primary{background:var(--primary);color:white}
-.btn-light{background:white;border:1px solid var(--border)}
-.hero{
-  background:
-  radial-gradient(circle at top right,rgba(6,182,212,.35),transparent 35%),
-  linear-gradient(135deg,#0f172a,#1e3a8a);
-  color:white;
-  padding:38px;
-  border-radius:30px;
-  box-shadow:var(--shadow);
-  display:grid;
-  grid-template-columns:1.3fr .7fr;
-  gap:24px;
-  margin-bottom:24px;
-}
-.hero h3{font-size:40px;line-height:1.1;letter-spacing:-.05em;margin-bottom:14px}
-.hero p{color:#dbeafe;line-height:1.7}
-.hero-panel{
-  background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:22px;
-  padding:22px;
-  display:grid;
-  gap:14px;
-}
-.hero-panel div{
-  display:flex;
-  justify-content:space-between;
-  color:#dbeafe;
-  font-weight:700;
-}
-.hero-panel strong{color:white}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-  margin-bottom:24px;
-}
-.card{
-  background:white;
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
-  border-radius:var(--radius);
-  padding:22px;
-}
-.metric-title{font-size:14px;color:var(--muted);font-weight:800;margin-bottom:10px}
-.metric-value{font-size:31px;font-weight:900;letter-spacing:-.04em}
-.metric-sub{font-size:14px;color:var(--muted);margin-top:8px}
-.content-grid{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:18px;
-  margin-bottom:24px;
-}
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
-}
-.section-title h3{font-size:21px}
-.table{
-  width:100%;
-  border-collapse:collapse;
-}
-.table th,.table td{
-  padding:14px;
-  border-bottom:1px solid var(--border);
-  text-align:left;
-  font-size:14px;
-}
-.table th{color:var(--muted)}
-.status-ok{color:var(--success);font-weight:900}
-.status-warn{color:var(--warning);font-weight:900}
-.status-danger{color:var(--danger);font-weight:900}
-.service{
-  display:grid;
-  grid-template-columns:48px 1fr auto;
-  gap:14px;
-  align-items:center;
-  padding:14px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  margin-bottom:12px;
-}
-.icon{
-  width:48px;height:48px;
-  display:grid;place-items:center;
-  border-radius:15px;
-  background:#eff6ff;
-  color:var(--primary);
-  font-weight:900;
-}
-.service p{color:var(--muted);font-size:14px;margin-top:4px}
-.progress-item{margin-bottom:16px}
-.progress-item span{
-  display:flex;
-  justify-content:space-between;
-  font-weight:800;
-  color:var(--muted);
-  font-size:14px;
-  margin-bottom:8px;
-}
-.bar{height:10px;background:#e2e8f0;border-radius:999px;overflow:hidden}
-.fill{
-  height:100%;
-  width:50%;
-  border-radius:999px;
-  background:linear-gradient(90deg,var(--primary),var(--accent));
-}
-input,select,textarea{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:13px;
-  font:inherit;
-  outline:none;
-}
-textarea{min-height:110px}
-.form{display:grid;gap:12px}
-.log{
-  font-family:Consolas,monospace;
-  background:#f8fafc;
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:12px;
-  font-size:13px;
-  margin-bottom:10px;
-  color:#334155;
-}
-.toast{
-  position:fixed;
-  right:24px;
-  bottom:24px;
-  background:#020617;
-  color:white;
-  padding:14px 18px;
-  border-radius:14px;
-  opacity:0;
-  transform:translateY(80px);
-  transition:.25s;
-}
-.toast.show{opacity:1;transform:translateY(0)}
-@media(max-width:1000px){
-  .app{grid-template-columns:1fr}
-  .sidebar{display:none}
-  .hero,.content-grid{grid-template-columns:1fr}
-  .grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:650px){
-  .main{padding:18px}
-  .topbar{flex-direction:column;align-items:flex-start}
-  .grid{grid-template-columns:1fr}
-  .hero h3{font-size:30px}
-}
-</style>
-</head>
-<body>
-<div class="app">
-  <aside class="sidebar">
-    <div>
-      <div class="logo">
-        <div class="logo-icon">PR</div>
-        <div>
-          <h1>ProdCloud Enterprise</h1>
-          <p>Console professionnelle de production</p>
-        </div>
-      </div>
-      <nav class="nav">
-        <a class="active" href="#">Tableau de bord</a>
-        <a href="#services">Services</a>
-        <a href="#controle">Contrôle</a>
-        <a href="#logs">Journaux</a>
-      </nav>
-    </div>
-    <div class="side-card">
-      <strong>Environnement :</strong> PROD<br>
-      <strong>Serveur :</strong> Docker + Nginx<br>
-      <strong>Mode :</strong> Infrastructure web multi-environnements
-    </div>
-  </aside>
 
-  <main class="main">
-    <header class="topbar">
-      <div>
-        <h2>ProdCloud Enterprise</h2>
-        <p>Console professionnelle de production</p>
-      </div>
-      <span class="badge">Production stable</span>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPlus RDC | Formation Excellence en Technologies Digitales</title>
+    <meta name="description" content="Centre de formation leader en RDC pour les métiers du numérique. Cybersécurité, Développement Web, Cloud Computing et Data Science.">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fontawesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&fam ily=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+         :root {
+            --primary: #1a56db;
+            --primary-dark: #1e40af;
+            --primary-light: #3b82f6;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --dark: #111827;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --lighter: #f1f5f9;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gray: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+        
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--dark);
+        }
+        
+        p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section {
+            padding: 6rem 0;
+            position: relative;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .section-header p {
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: center;
+            white-space: nowrap;
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-accent:hover {
+            background-color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-lg {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .text-primary {
+            color: var(--primary);
+        }
+        
+        .text-secondary {
+            color: var(--secondary);
+        }
+        
+        .text-accent {
+            color: var(--accent);
+        }
+        /* Top Bar */
+        
+        .top-bar {
+            background-color: var(--darker);
+            color: var(--white);
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1001;
+        }
+        
+        .top-bar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .top-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .top-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        
+        .top-links a:hover {
+            color: var(--white);
+        }
+        
+        .top-links i {
+            font-size: 0.8rem;
+        }
+        /* Navigation */
+        
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-slow);
+        }
+        
+        header.scrolled {
+            box-shadow: var(--shadow);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--dark);
+            z-index: 1001;
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .logo-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .nav-links>li {
+            position: relative;
+        }
+        
+        .nav-links>li>a {
+            font-weight: 600;
+            color: var(--dark);
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links>li>a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-links>li>a:hover::after {
+            width: 100%;
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .dropdown-toggle i {
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown:hover .dropdown-toggle i {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--white);
+            min-width: 220px;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-xl);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+        }
+        
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-content a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .dropdown-content a:hover {
+            background-color: var(--lighter);
+            color: var(--primary);
+            padding-left: 1.75rem;
+        }
+        
+        .nav-btns {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        /* Hero Section */
+        
+        .hero {
+            position: relative;
+            padding: 10rem 0 8rem;
+            background: linear-gradient(135deg, rgba(26, 86, 219, 0.95) 0%, rgba(16, 185, 129, 0.9) 100%), url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: var(--white);
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.837.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.156,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%23ffffff"></path><pathd="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58 c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.262.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69, 119.13-24.28s75.16-39, 116.92-43.05c59.73- 5.85, 113.28, 22.88, 168.9, 38.84, 30.2, 8.66, 59, 6.17, 87.09-7.5, 22.43-10.89, 4826.93, 60.65-49.24V0Z" opacity=".5" fill="%23ffffff"></path><path d="M0, 0V5.63C149.93, 59, 314.09, 71.32, 475.83, 42.57c43-7.64, 84.23-20.12, 127.6126.46, 59-8.63, 112.48, 12.24, 165.56, 35.4C827.93, 77.22, 886, 95.24, 951.2, 90c86.537, 172.46-45.71, 248.8-84.81V0Z" fill="%23ffffff"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+        }
+        
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .hero-image {
+            position: absolute;
+            right: 5%;
+            bottom: 0;
+            width: 500px;
+            z-index: 1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        /* Stats Section */
+        
+        .stats {
+            position: relative;
+            margin-top: -5rem;
+            z-index: 3;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            background-color: var(--white);
+            border-radius: 1rem;
+            padding: 3rem 2rem;
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            width: 1px;
+            background-color: var(--gray);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .stat-number i {
+            font-size: 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        /* Features Section */
+        
+        .features {
+            background-color: var(--lighter);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26, 86, 219, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+            clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
+            z-index: 0;
+        }
+        
+        .features-container {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 1rem;
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        /* Specialties Section */
+        
+        .specialties {
+            position: relative;
+        }
+        
+        .specialties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .specialty-card {
+            background-color: var(--white);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .specialty-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .specialty-header {
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .specialty-header.secondary {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+        }
+        
+        .specialty-header.accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+        }
+        
+        .specialty-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .specialty-header p {
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .specialty-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .specialty-body {
+            padding: 2rem;
+        }
+        
+        .specialty-features {
+            margin-bottom: 2rem;
+        }
+        
+        .specialty-features li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .specialty-features li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        /* Courses Section */
+        
+        .courses {
+            background-color: var(--lighter);
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .course-card {
+            background-color: var(--white);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .course-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .course-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
+        
+        .course-card:hover .course-img img {
+            transform: scale(1.1);
+        }
+        
+        .course-content {
+            padding: 2rem;
+        }
+        
+        .course-category {
+            display: inline-block;
+            background-color: var(--lighter);
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .course-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .course-meta i {
+            color: var(--primary);
+        }
+        
+        .course-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .course-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        /* Team Section */
+        
+        .team {
+            position: relative;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-member {
+            background-color: var(--white);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .member-img {
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .member-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-slow);
+        }
+        
+        .team-member:hover .member-img img {
+            transform: scale(1.05);
+        }
+        
+        .member-social {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .team-member:hover .member-social {
+            opacity: 1;
+        }
+        
+        .member-social a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .member-social a:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .member-info {
+            padding: 1.5rem;
+        }
+        
+        .member-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .member-position {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        /* Testimonials Section */
+        
+        .testimonials {
+            background-color: var(--lighter);
+            position: relative;
+        }
+        
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26, 86, 219, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+            clip-path: polygon(0 0, 100% 0, 0 100%, 0 100%);
+            z-index: 0;
+        }
+        
+        .testimonials-container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-slider {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .testimonial-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .testimonial-card {
+            min-width: 100%;
+            padding: 0 1rem;
+        }
+        
+        .testimonial-content {
+            background-color: var(--white);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .testimonial-content::before {
+            content: '\201C';
+            position: absolute;
+            top: 1rem;
+            left: 2rem;
+            font-size: 5rem;
+            color: var(--primary);
+            opacity: 0.1;
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .author-position {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .testimonial-rating {
+            color: var(--accent);
+            margin-top: 0.5rem;
+        }
+        
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .slider-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--white);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: none;
+            outline: none;
+        }
+        
+        .slider-btn:hover {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        /* CTA Section */
+        
+        .cta {
+            background: linear-gradient(135deg, rgba(26, 86, 219, 0.95) 0%, rgba(16, 185, 129, 0.9) 100%), url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .cta-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        /* Newsletter Section */
+        
+        .newsletter {
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 4rem 0;
+        }
+        
+        .newsletter-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .newsletter-text h2 {
+            font-size: 2rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter-text p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+        /* Footer */
+        
+        footer {
+            background-color: var(--darker);
+            color: var(--white);
+            padding: 5rem 0 2rem;
+            position: relative;
+        }
+        
+        .footer-wave {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.837.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.156,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%23111527"></path><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58 c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.262.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69, 119.13-24.28s75.16-39, 116.92-43.05c59.73- 5.85, 113.28, 22.88, 168.9, 38.84, 30.2, 8.66, 59, 6.17, 87.09-7.5, 22.43-10.89, 4826.93, 60.65-49.24V0Z" opacity=".5" fill="%23111527"></path><path d="M0, 0V5.63C149.93, 59, 314.09, 71.32, 475.83, 42.57c43-7.64, 84.23-20.12, 127.6126.46, 59-8.63, 112.48, 12.24, 165.56, 35.4C827.93, 77.22, 886, 95.24, 951.2, 90c86.537, 172.46-45.71, 248.8-84.81V0Z" fill="%23111527"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .footer-about p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .footer-social a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+            padding-left: 5px;
+        }
+        
+        .footer-links i {
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
+        
+        .footer-contact li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .footer-contact i {
+            color: var(--secondary);
+            margin-top: 0.25rem;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+        /* Responsive */
+        
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .section-header h2 {
+                font-size: 2.25rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 300px;
+                height: 100vh;
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 6rem 2rem 2rem;
+                box-shadow: var(--shadow-xl);
+                transition: var(--transition-slow);
+                z-index: 1000;
+            }
+            .nav-links.active {
+                right: 0;
+            }
+            .nav-links>li {
+                width: 100%;
+            }
+            .nav-links>li>a {
+                display: block;
+                padding: 0.75rem 0;
+                border-bottom: 1px solid var(--gray);
+            }
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+                padding: 0.5rem 0 0.5rem 1rem;
+            }
+            .dropdown.active .dropdown-content {
+                display: block;
+            }
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-image {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 4rem 0;
+            }
+            .hero {
+                padding: 8rem 0 6rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .hero-btns,
+            .cta-btns {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .stat-item:not(:last-child)::after {
+                display: none;
+            }
+            .top-bar-content {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .top-links {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <div class="top-links">
+                    <a href="tel:+243993932520"><i class="fas fa-phone"></i> +243 993 932 520</a>
+                    <a href="mailto:contact@techplusrdc.com"><i class="fas fa-envelope"></i> contact@techplusrdc.com</a>
+                </div>
+                <div class="top-links">
+                    <a href="#"><i class="fas fa-map-marker-alt"></i> Kinshasa, Gombe</a> <a href="#"><i class="fas fa-clock"></i> Lun-Ven: 8h-17h</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <div class="logo-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" strokelinejoin="round"> 
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect> 
+                            <line x1="8" y1="21" x2="16" y2="21"></line> 
+                            <line x1="12" y1="17" x2="12" y2="21"></line> 
+                            <path d="M8 9h8v4H8z"></path> 
+                        </svg>
+                    </div>
+                    <span class="logo-text">TechPlus RDC</span>
+                </a>
+
+                <ul class="nav-links">
+                    <li><a href="#">Accueil</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Formations <i class="fas fa-chevrondown"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#">Cybersécurité</a>
+                            <a href="#">Développement Web</a>
+                            <a href="#">Cloud Computing</a>
+                            <a href="#">Data Science</a>
+                            <a href="#">Toutes les formations</a>
+                        </div>
+                    </li>
+                    <li><a href="#">Certifications</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Entreprises <i class="fas fa-chevrondown"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#">Formation sur mesure</a>
+                            <a href="#">Recrutement</a>
+                            <a href="#">Partenariats</a>
+                        </div>
+                    </li>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+
+                <div class="nav-btns">
+                    <a href="#" class="btn btn-outline">Se connecter</a>
+                    <a href="#" class="btn btn-primary">S'inscrire</a>
+                </div>
+
+                <button class="mobile-menu-btn"> 
+                    <i class="fas fa-bars"></i> 
+                </button>
+            </nav>
+        </div>
     </header>
 
-    <section class="hero">
-      <div>
-        <h3>Infrastructure web stable, sécurisée et supervisée en continu</h3>
-        <p>Cet environnement représente la version finale utilisée par les utilisateurs. Il doit rester disponible, sécurisé, performant et surveillé en permanence.</p>
-      </div>
-      <div class="hero-panel">
-        <div><span>Environnement</span><strong>PROD</strong></div>
-        <div><span>Disponibilité</span><strong id="uptime">99.90%</strong></div>
-        <div><span>Statut global</span><strong>Opérationnel</strong></div>
-      </div>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+                <h1>Formez-vous aux métiers d'avenir du numérique</h1>
+                <p>Devenez expert en cybersécurité, développement web ou cloud computing avec nos formations certifiantes adaptées au marché africain.</p>
+                <div class="hero-btns">
+                    <a href="#formations" class="btn btn-secondary btn-lg">Découvrir nos formations</a>
+                    <a href="#contact" class="btn btn-outline btn-lg">Parler à un conseiller</a>
+                </div>
+            </div>
+
+            <div class="hero-image" data-aos="fade-left" data-aos-delay="300">
+                <img src="https://images.unsplash.com/photo-1551434678-
+e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Étudiants TechPlus">
+            </div>
+        </div>
     </section>
 
-    <section class="grid">
-      <article class="card"><p class="metric-title">Disponibilité</p><p class="metric-value" id="uptimeCard">99.98%</p><p class="metric-sub">Service accessible</p></article><article class="card"><p class="metric-title">Requêtes</p><p class="metric-value" id="requests">18.7k</p><p class="metric-sub">Trafic journalier</p></article><article class="card"><p class="metric-title">Incidents</p><p class="metric-value" id="incidents">0</p><p class="metric-sub">Aucune alerte critique</p></article><article class="card"><p class="metric-title">SLA</p><p class="metric-value" id="sla">24/7</p><p class="metric-sub">Supervision continue</p></article>
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="stat-item">
+                    <div class="stat-number">2000+ <i class="fas fa-user-graduate"></i></div>
+                    <div class="stat-label">Étudiants formés</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98% <i class="fas fa-thumbs-up"></i></div>
+                    <div class="stat-label">Taux de satisfaction</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+ <i class="fas fa-chalkboard-user"></i></div>
+                    <div class="stat-label">Formateurs experts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15 <i class="fas fa-certificate"></i></div>
+                    <div class="stat-label">Programmes certifiants</div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section class="content-grid">
-      <article class="card" id="controle">
-        <div class="section-title">
-          <h3>État des services critiques</h3>
-          <button class="btn btn-light" onclick="refreshData()">Actualiser</button>
-        </div>
-        <table class="table">
-          <thead><tr><th>Élément</th><th>État</th><th>Commentaire</th></tr></thead>
-          <tbody>
-          <tr><td>Serveur web</td><td class="status-ok">ACTIF</td><td>Nginx répond correctement</td></tr><tr><td>Base MySQL</td><td class="status-ok">ACTIF</td><td>Connexion établie</td></tr><tr><td>Reverse proxy</td><td class="status-ok">ACTIF</td><td>Routage opérationnel</td></tr><tr><td>Sauvegarde</td><td class="status-ok">OK</td><td>Dernière sauvegarde disponible</td></tr>
-          </tbody>
-        </table>
-      </article>
+    <!-- Features Section -->
+    <section class="features section" id="features">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Pourquoi choisir TechPlus RDC ?</h2>
+                <p>Nous offrons bien plus qu'une simple formation, nous vous accompagnons vers la réussite professionnelle</p>
+            </div>
 
-      <article class="card" id="services">
-        <div class="section-title">
-          <h3>Services production</h3>
-          <span class="badge">Live</span>
+            <div class="features-container">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Pédagogie innovante</h3>
+                    <p>Apprentissage par projets concrets avec des cas réels d'entreprises locales et internationales.</p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Insertion professionnelle</h3>
+                    <p>Accès à notre réseau de partenaires employeurs et accompagnement personnalisé vers l'emploi.</p>
+                </div>
+
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe-africa"></i>
+                    </div>
+                    <h3>Expertise locale</h3>
+                    <p>Formations adaptées au contexte africain avec des experts ayant une expérience terrain en RDC.</p>
+                </div>
+            </div>
         </div>
-        <div class="service"><div class="icon">WEB</div><div><h4>Serveur Web</h4><p>Hébergement de l’application finale.</p></div><span class="status-ok">Actif</span></div><div class="service"><div class="icon">DB</div><div><h4>Base de données</h4><p>Stockage des données de production.</p></div><span class="status-ok">Actif</span></div><div class="service"><div class="icon">MON</div><div><h4>Monitoring</h4><p>Prometheus et Grafana disponibles.</p></div><span class="status-ok">Actif</span></div>
-      </article>
     </section>
 
-    <section class="content-grid">
-      <article class="card">
-        <div class="section-title">
-          <h3>Utilisation système</h3>
-          <span class="badge">Monitoring</span>
-        </div>
-        <div class="progress-item"><span><small>CPU</small><small id="cpuText">34%</small></span><div class="bar"><div id="cpuBar" class="fill" style="width:34%"></div></div></div>
-        <div class="progress-item"><span><small>RAM</small><small id="ramText">51%</small></span><div class="bar"><div id="ramBar" class="fill" style="width:51%"></div></div></div>
-        <div class="progress-item"><span><small>Stockage</small><small id="diskText">42%</small></span><div class="bar"><div id="diskBar" class="fill" style="width:42%"></div></div></div>
-      </article>
+    <!-- Specialties Section -->
+    <section class="specialties section" id="specialties">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Nos Domaines d'Expertise</h2>
+                <p>Découvrez nos principales spécialités dans le domaine des technologies numériques</p>
+            </div>
 
-      <article class="card" id="logs">
-        <div class="section-title">
-          <h3>Journaux récents</h3>
-          <button class="btn btn-primary" onclick="addLog('Action administrateur exécutée')">Ajouter log</button>
+            <div class="specialties-grid">
+                <div class="specialty-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="specialty-header">
+                        <h3>Cybersécurité</h3>
+                        <p>Protégez les systèmes contre les cybermenaces</p>
+                    </div>
+                    <div class="specialty-body">
+                        <p>Formations complètes pour devenir expert en sécurité informatique avec des certifications reconnues internationalement.</p>
+                        <ul class="specialty-features">
+                            <li>Sécurité des réseaux et infrastructures</li>
+                            <li>Ethical Hacking & Pentesting</li>
+                            <li>Protection des données RGPD</li>
+                            <li>Certifications CISSP, CEH, Security+</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline">En savoir plus</a>
+                    </div>
+                </div>
+
+                <div class="specialty-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="specialty-header secondary">
+                        <h3>Développement Web</h3>
+                        <p>Créez des applications modernes</p>
+                    </div>
+                    <div class="specialty-body">
+                        <p>Devenez développeur full-stack avec les dernières technologies du marché.</p>
+                        <ul class="specialty-features">
+                            <li>Front-end: React, Angular, Vue.js</li>
+                            <li>Back-end: Node.js, Python, PHP</li>
+                            <li>Bases de données SQL & NoSQL</li>
+                            <li>Architecture microservices</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline">En savoir plus</a>
+                    </div>
+                </div>
+
+                <div class="specialty-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="specialty-header accent">
+                        <h3>Cloud Computing</h3>
+                        <p>Maîtrisez les solutions cloud</p>
+                    </div>
+                    <div class="specialty-body">
+                        <p>Formations certifiantes sur les plateformes cloud leaders du marché.</p>
+                        <ul class="specialty-features">
+                            <li>AWS Certified Solutions Architect</li>
+                            <li>Microsoft Azure Administrator</li>
+                            <li>Google Cloud Professional</li>
+                            <li>DevOps et Infrastructure as Code</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="logsBox"></div>
-      </article>
     </section>
-  </main>
-</div>
 
-<div class="toast" id="toast">Action effectuée</div>
+    <!-- Courses Section -->
+    <section class="courses section" id="formations">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Nos Formations Populaires</h2>
+                <p>Découvrez nos programmes les plus demandés par les professionnels</p>
+            </div>
 
-<script>
-function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
-}
-function addLog(msg){
-  const box=document.getElementById('logsBox');
-  const d=new Date().toLocaleString('fr-FR');
-  const div=document.createElement('div');
-  div.className='log';
-  div.textContent='['+d+'] '+msg;
-  box.prepend(div);
-}
-function refreshData(){
-  const cpu=rand(20,72), ram=rand(35,80), disk=rand(38,65);
-  document.getElementById('cpuText').textContent=cpu+'%';
-  document.getElementById('ramText').textContent=ram+'%';
-  document.getElementById('diskText').textContent=disk+'%';
-  document.getElementById('cpuBar').style.width=cpu+'%';
-  document.getElementById('ramBar').style.width=ram+'%';
-  document.getElementById('diskBar').style.width=disk+'%';
-  addLog('Métriques système actualisées');
-  toast('Données actualisées');
-}
-['Serveur web démarré','Conteneur Docker actif','Nginx reverse proxy opérationnel'].forEach(addLog);
+            <div class="courses-grid">
+                <div class="course-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="course-img">
+                        <img src="https://images.unsplash.com/photo-1550751827-
+4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Expert en Cybersécurité">
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">Cybersécurité</span>
+                        <h3>Expert en Cybersécurité</h3>
+                        <p>Formation complète pour devenir expert en sécurité informatique et protection des données.</p>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> 6 mois</span>
+                            <span><i class="fas fa-user-graduate"></i> Avancé</span>
+                        </div>
+                        <div class="course-footer">
+                            <div class="course-price">$499</div>
+                            <a href="#" class="btn btn-primary">S'inscrire</a>
+                        </div>
+                    </div>
+                </div>
 
-</script>
+                <div class="course-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="course-img">
+                        <img src="https://images.unsplash.com/photo-1629904853893c2c8981a1dc5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Développeur Full-Stack">
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">Développement Web</span>
+                        <h3>Développeur Full-Stack</h3>
+                        <p>Maîtrisez le développement front-end et back-end avec les technologies modernes.</p>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> 8 mois</span>
+                            <span><i class="fas fa-user-graduate"></i> Intermédiaire</span>
+                        </div>
+                        <div class="course-footer">
+                            <div class="course-price">$399</div>
+                            <a href="#" class="btn btn-primary">S'inscrire</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="course-img">
+                        <img src="https://images.unsplash.com/photo-1610563166150b34df4f3bcd6?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Architecte Cloud AWS">
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">Cloud Computing</span>
+                        <h3>Architecte Cloud AWS</h3>
+                        <p>Préparez la certification AWS Solutions Architect avec nos experts certifiés.</p>
+                        <div class="course-meta">
+                            <span><i class="far fa-clock"></i> 4 mois</span>
+                            <span><i class="fas fa-user-graduate"></i> Avancé</span>
+                        </div>
+                        <div class="course-footer">
+                            <div class="course-price">$349</div>
+                            <a href="#" class="btn btn-primary">S'inscrire</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;" data-aos="fade-up">
+                <a href="#" class="btn btn-outline">Voir toutes les formations</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team section" id="team">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Rencontrez Nos Experts</h2>
+                <p>Nos formateurs sont des professionnels expérimentés avec une expertise terrain</p>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-member" data-aos="fade-up" data-aos-delay="100">
+                    <div class="member-img">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Patrick 
+Mulumba">
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Patrick Mulumba</h3>
+                        <span class="member-position">Expert Cybersécurité</span>
+                        <p>15 ans d'expérience, ancien consultant pour Orange et Vodacom</p>
+                    </div>
+                </div>
+
+                <div class="team-member" data-aos="fade-up" data-aos-delay="200">
+                    <div class="member-img">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Kabasele">
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Sarah Kabasele</h3>
+                        <span class="member-position">Développeuse Full-Stack</span>
+                        <p>Spécialiste JavaScript, ancienne lead dev à Jumia</p>
+                    </div>
+                </div>
+
+                <div class="team-member" data-aos="fade-up" data-aos-delay="300">
+                    <div class="member-img">
+                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="David Tshibangu">
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3>David Tshibangu</h3>
+                        <span class="member-position">Architecte Cloud</span>
+                        <p>5x AWS Certified, ancien chez Microsoft RDC</p>
+                    </div>
+                </div>
+
+                <div class="team-member" data-aos="fade-up" data-aos-delay="400">
+                    <div class="member-img">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Grace Mbayo">
+                        <div class="member-social">
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#"><i class="fab fa-researchgate"></i></a>
+                            <a href="#"><i class="fas fa-globe"></i></a>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Grace Mbayo</h3>
+                        <span class="member-position">Data Scientist</span>
+                        <p>PhD en Intelligence Artificielle, experte en Machine Learning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials section" id="testimonials">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2>Témoignages</h2>
+                <p>Ce que nos étudiants disent de leur expérience TechPlus RDC</p>
+            </div>
+
+            <div class="testimonials-container" data-aos="fade-up">
+                <div class="testimonial-slider">
+                    <div class="testimonial-track">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <p class="testimonial-text">"La formation en cybersécurité m'a permis d'obtenir une certification CISSP et de décrocher un poste de responsable sécurité dans une banque locale. Les formateurs sont extrêmement compétents et disponibles."</p>
+                                <div class="testimonial-author">
+                                    <div class="author-img">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jean K.">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Jean K.</h4>
+                                        <span class="author-position">Responsable Sécurité, Banque 
+ABC</span>
+                                        <div class="testimonial-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slider-controls">
+                    <button class="slider-btn prev-btn"> 
+                        <i class="fas fa-chevron-left"></i> 
+                    </button>
+                    <button class="slider-btn next-btn"> 
+                        <i class="fas fa-chevron-right"></i> 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta section">
+        <div class="container">
+            <div class="cta-content" data-aos="fade-up">
+                <h2>Prêt à transformer votre carrière ?</h2>
+                <p>Inscrivez-vous dès aujourd'hui et bénéficiez de 20% de réduction sur notre formation phare en cybersécurité. Offre valable jusqu'au 30 novembre 2023.</p>
+                <div class="cta-btns">
+                    <a href="#" class="btn btn-secondary btn-lg">S'inscrire maintenant</a>
+                    <a href="#" class="btn btn-outline btn-lg">Demander un programme</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-container">
+                <div class="newsletter-text" data-aos="fade-right">
+                    <h2>Abonnez-vous à notre newsletter</h2>
+                    <p>Recevez les dernières actualités, offres spéciales et conseils professionnels directement dans votre boîte mail.</p>
+                </div>
+                <div class="newsletter-form" data-aos="fade-left">
+                    <input type="email" placeholder="Votre adresse email">
+                    <button type="submit" class="btn btn-accent">S'abonner</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-wave"></div>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <h3>TechPlus RDC</h3>
+                    <p>Centre de formation leader en République Démocratique du Congo spécialisé dans les métiers du numérique et des technologies digitales.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Liens Rapides</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Accueil</a></li>
+                        <li><a href="#formations"><i class="fas fa-chevron-right"></i> Nos formations</a></li>
+                        <li><a href="#team"><i class="fas fa-chevron-right"></i> Nos formateurs</a></li>
+                        <li><a href="#testimonials"><i class="fas fa-chevron-right"></i> Témoignages</a></li>
+                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Formations</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cybersécurité</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Développement Web</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cloud Computing</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Data Science</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Toutes les formations</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col footer-contact">
+                    <h3>Contactez-nous</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Avenue de la Justice, Gombe, Kinshasa, RDC</li>
+                        <li><i class="fas fa-phone"></i> +243 810 000 000</li>
+                        <li><i class="fas fa-envelope"></i> contact@techplusrdc.com</li>
+                        <li><i class="fas fa-clock"></i> Lundi-Vendredi: 8h00-17h00</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2023 TechPlus RDC. Tous droits réservés. | <a href="#">Politique de confidentialité</a> | <a href="#">Conditions d'utilisation</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#" id="back-to-top" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animation         
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+
+        // Mobile menu toggle 
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 992) {
+                    e.preventDefault();
+                    const dropdown = toggle.parentElement;
+                    dropdown.classList.toggle('active');
+                }
+            });
+        });
+
+        // Header scroll effect         
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Back to top button         
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'hidden';
+            }
+        });
+
+        // Testimonial slider (simplified version)         
+        const testimonialTrack = document.querySelector('.testimonial-track');
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        let currentIndex = 0;
+
+        function updateSlider() {
+            testimonialTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % testimonialCards.length;
+            updateSlider();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + testimonialCards.length) % testimonialCards.length;
+            updateSlider();
+        });
+
+        // For demo purposes, duplicate the first testimonial card         
+        const firstCard = testimonialCards[0].cloneNode(true);
+        testimonialTrack.appendChild(firstCard);
+    </script>
 </body>
+
 </html>
